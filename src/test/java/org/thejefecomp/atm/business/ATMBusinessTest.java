@@ -1,7 +1,7 @@
 package org.thejefecomp.atm.business;
 
 /******************************************************************************
-*    Copyright (c)  2021, Jeferson Souza (thejefecomp) - 
+*    Copyright (c)  2021-2026, Jeferson L. R. Souza (thejefecomp) - 
 *    thejefecomp@neartword.com. All rights reserved. 
 *
 *    Redistribution and use in source and binary forms, with or without 
