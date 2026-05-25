@@ -36,13 +36,17 @@ package org.thejefecomp.atm.business;
 *    SUCH DAMAGE.
 ******************************************************************************/
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import org.thejefecomp.atm.business.exception.NoSufficientCashException;
 import org.thejefecomp.atm.business.exception.SuitableBankNotesNotesNotAvailableException;
 import org.thejefecomp.atm.model.BankNote;
@@ -54,7 +58,7 @@ public class ATMBusinessTest{
 
 	ATMBusiness atmBusiness;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		
 		this.atmStorage = new ATMStorage();
@@ -62,7 +66,7 @@ public class ATMBusinessTest{
 		this.atmBusiness = new ATMBusiness(this.atmStorage);
 	}
 	
-	@After
+	@AfterEach
 	public void tearDown() {
 		
 		this.atmStorage = null;
@@ -78,40 +82,40 @@ public class ATMBusinessTest{
 		this.atmBusiness.insertBankNote(20, 3);
 		this.atmBusiness.insertBankNote(10, 5);
 		
-		Assert.assertFalse(this.atmStorage.getAtmBankNoteList().isEmpty());
-		Assert.assertEquals(1L, this.atmStorage
+		assertFalse(this.atmStorage.getAtmBankNoteList().isEmpty());
+		assertEquals(1L, this.atmStorage
 								    .getAtmBankNoteList()
 								    .stream()
 								    .filter(bankNote -> bankNote.getValue() == 50 &&
 								    					bankNote.getQuantity() == 1)
 								    .count());
 		
-		Assert.assertEquals(1L, this.atmStorage
+		assertEquals(1L, this.atmStorage
 				   					.getAtmBankNoteList()
 									.stream()
 									.filter(bankNote -> bankNote.getValue() == 20 &&
 														bankNote.getQuantity() == 3)
 									.count());
 		
-		Assert.assertEquals(1L, this.atmStorage
+		assertEquals(1L, this.atmStorage
 									.getAtmBankNoteList()
 									.stream()
 									.filter(bankNote -> bankNote.getValue() ==10 &&
 														bankNote.getQuantity() == 5)
 									.count());
 		
-		Assert.assertEquals(160L, atmStorage.getTotalValue());
+		assertEquals(160L, atmStorage.getTotalValue());
 		
 		//Insert test 2
 		this.atmBusiness.insertBankNote(50, 10);
-		Assert.assertEquals(1L, this.atmStorage
+		assertEquals(1L, this.atmStorage
 			    .getAtmBankNoteList()
 			    .stream()
 			    .filter(bankNote -> bankNote.getValue() == 50)
 			    .filter(bankNote -> bankNote.getQuantity() == 11)
 			    .count());
 		
-		Assert.assertEquals(660L, atmStorage.getTotalValue());
+		assertEquals(660L, atmStorage.getTotalValue());
 	}
 	
     @Test
@@ -123,8 +127,8 @@ public class ATMBusinessTest{
     		
     		List<BankNote> withdrawBankNoteList = this.atmBusiness.withdraw(80);
     		
-    		Assert.assertEquals(3, withdrawBankNoteList.size());
-    		Assert.assertEquals(3L, withdrawBankNoteList.stream()
+    		assertEquals(3, withdrawBankNoteList.size());
+    		assertEquals(3L, withdrawBankNoteList.stream()
     													.filter(bankNote -> (bankNote.getValue() == 50 && 
     																		 bankNote.getQuantity() == 1) ||
     																		 (bankNote.getValue() == 20 && 
@@ -132,32 +136,32 @@ public class ATMBusinessTest{
     																		 (bankNote.getValue() == 10 && 
     																		 bankNote.getQuantity() == 1))
     													.count());
-    		Assert.assertEquals(1L, this.atmStorage
+    		assertEquals(1L, this.atmStorage
     			    .getAtmBankNoteList()
     			    .stream()
     			    .filter(bankNote -> bankNote.getValue() == 50 &&
     			    					bankNote.getQuantity() == 10)
     			    .count());
     		
-    		Assert.assertEquals(1L, this.atmStorage
+    		assertEquals(1L, this.atmStorage
    					.getAtmBankNoteList()
 					.stream()
 					.filter(bankNote -> bankNote.getValue() == 20 &&
 										bankNote.getQuantity() == 2)
 					.count());
     		
-    		Assert.assertEquals(1L, this.atmStorage
+    		assertEquals(1L, this.atmStorage
 					.getAtmBankNoteList()
 					.stream()
 					.filter(bankNote -> bankNote.getValue() == 10 &&
 										bankNote.getQuantity() == 4)
 					.count());
     		
-    		Assert.assertEquals(580L, this.atmStorage.getTotalValue());
+    		assertEquals(580L, this.atmStorage.getTotalValue());
     	}
     	catch(NoSufficientCashException | SuitableBankNotesNotesNotAvailableException e){
     		
-    		Assert.fail();
+    		fail();
     	}	
     }
     
@@ -171,46 +175,46 @@ try {
     		List<BankNote> withdrawBankNoteList = this.atmBusiness.withdraw(50);
     		
     		
-    		Assert.assertEquals(1, withdrawBankNoteList.size());
+    		assertEquals(1, withdrawBankNoteList.size());
     		
-    		Assert.assertEquals(1L, withdrawBankNoteList.stream()
+    		assertEquals(1L, withdrawBankNoteList.stream()
     			    									.filter(bankNote -> bankNote.getValue() == 50 &&
     			    														bankNote.getQuantity() == 1)
     			    									.count());
     		
-    		Assert.assertEquals(1L, this.atmStorage
+    		assertEquals(1L, this.atmStorage
     			    .getAtmBankNoteList()
     			    .stream()
     			    .filter(bankNote -> bankNote.getValue() == 50 &&
     			    					bankNote.getQuantity() == 1)
     			    .count());
     		
-    		Assert.assertEquals(50L, this.atmStorage.getTotalValue());
+    		assertEquals(50L, this.atmStorage.getTotalValue());
     		
     		withdrawBankNoteList = this.atmBusiness.withdraw(50);
     		
     		
-    		Assert.assertEquals(1, withdrawBankNoteList.size());
+    		assertEquals(1, withdrawBankNoteList.size());
     		
-    		Assert.assertEquals(1L, withdrawBankNoteList.stream()
+    		assertEquals(1L, withdrawBankNoteList.stream()
     			    									.filter(bankNote -> bankNote.getValue() == 50 &&
     			    														bankNote.getQuantity() == 1)
     			    									.count());
     		
-    		Assert.assertEquals(1L, this.atmStorage
+    		assertEquals(1L, this.atmStorage
     			    .getAtmBankNoteList()
     			    .stream()
     			    .filter(bankNote -> bankNote.getValue() == 50 &&
     			    					bankNote.getQuantity() == 0)
     			    .count());
     		
-    		Assert.assertEquals(0L, this.atmStorage.getTotalValue());
+    		assertEquals(0L, this.atmStorage.getTotalValue());
     		
     		
     	}
     	catch(NoSufficientCashException | SuitableBankNotesNotesNotAvailableException e){
     		
-    		Assert.fail();
+    		fail();
     	}	
     }
     
@@ -223,16 +227,16 @@ try {
     		
     		this.atmBusiness.withdraw(700);
     		
-    		Assert.fail();
+    		fail();
     	}
     	catch (NoSufficientCashException e) {
     		
-    		Assert.assertTrue(e.getMessage(), true);
+    		assertTrue(true, e.getMessage());
     		
     	}
     	catch(SuitableBankNotesNotesNotAvailableException e){
     		
-    		Assert.fail();
+    		fail();
     	}
     }
     
@@ -245,15 +249,15 @@ try {
     		
     		this.atmBusiness.withdraw(60);
     		
-    		Assert.fail();		
+    		fail();		
     	}
     	catch (NoSufficientCashException e) {
     		
-    		Assert.fail();
+    		fail();
     	}
     	catch(SuitableBankNotesNotesNotAvailableException e){
     		
-    		Assert.assertTrue(e.getMessage(), true);
+    		assertTrue(true, e.getMessage());
     	}
     }
     
@@ -267,15 +271,15 @@ try {
     		
     		this.atmBusiness.withdraw(80);
     		
-    		Assert.fail();		
+    		fail();		
     	}
     	catch (NoSufficientCashException e) {
     		
-    		Assert.fail();
+    		fail();
     	}
     	catch(SuitableBankNotesNotesNotAvailableException e){
     		
-    		Assert.assertTrue(e.getMessage(), true);
+    		assertTrue(true, e.getMessage());
     	}
     }
     
@@ -289,29 +293,29 @@ try {
     		
     		this.atmBusiness.withdraw(130);
     		
-    		Assert.fail();		
+    		fail();		
     	}
     	catch (NoSufficientCashException e) {
     		
-    		Assert.fail();
+    		fail();
     	}
     	catch(SuitableBankNotesNotesNotAvailableException e){
     	
-    		Assert.assertEquals(1L, this.atmStorage
+    		assertEquals(1L, this.atmStorage
     			    					.getAtmBankNoteList()
     			    					.stream()
     			    					.filter(bankNote -> bankNote.getValue() == 50 &&
     			    										bankNote.getQuantity() == 2)
     			    					.count());
     		
-    		Assert.assertEquals(1L, this.atmStorage
+    		assertEquals(1L, this.atmStorage
    										.getAtmBankNoteList()
    										.stream()
    										.filter(bankNote -> bankNote.getValue() == 20 &&
    															bankNote.getQuantity() == 2)
    										.count());
     		
-    		Assert.assertEquals(140L, atmStorage.getTotalValue());
+    		assertEquals(140L, atmStorage.getTotalValue());
     	}
     }
 }
