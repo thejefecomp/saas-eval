@@ -11,4 +11,4 @@ depends on the entire architecture of the system as a whole, which is out of the
 
 The project uses Apache Maven as a Build tool, providing Unit tests to cover common test cases.
 
-Jeferson Souza (thejefecomp) - thejefecomp@neartword.com.
+Jeferson L. R. Souza (thejefecomp) - thejefecomp@neartword.com.
